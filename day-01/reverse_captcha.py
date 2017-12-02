@@ -1,29 +1,32 @@
-def sum_if_next_match(buf):
+def parse(buf):
+    return [int(c) for c in buf.strip()]
 
+def sum_it(inpt, step=0):
+    i = 1
+    l = len(inpt)
     res = 0
-    inted = [int(c) for c in buf]
-    prev = inted[0]
 
-    for cur in inted[1:]:
-        if prev == cur:
-            res += prev
+    while i <= l:
+        prev = inpt[i-1]
+        cur = inpt[(i + step) % l]
 
-        prev = cur
-
-    if inted[0] == inted[-1]:
-        res += inted[-1]
-
+        res += prev if prev == cur else 0
+        i += 1
     return res
 
 
 def main():
 
     with open("input.txt", "r") as f:
-        buf = f.read().strip()
+        buf = f.read()
 
-    total = sum_if_next_match(buf)
+    inpt = parse(buf)
+    total1 = sum_it(inpt)
+    step = len(inpt) // 2 - 1
+    total2 = sum_it(inpt, step)
 
-    print("The total is %d !" % total)
+    print("The total for part 1 is %d !" % total1)
+    print("The total for part 2 is %d !" % total2)
 
 
 if __name__ == '__main__':
