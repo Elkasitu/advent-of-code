@@ -9,12 +9,22 @@ def main():
         buf = f.read()
 
     matrix = parse(buf)
-    res = 0
+    
+    res1 = sum([max(row) - min(row) for row in matrix])
+
+    res2 = 0
 
     for row in matrix:
-        res += max(row) - min(row)
+        l = len(row)
+        for i in range(1, l):
+            shifted = row[-i:] + row[:l - i]
+            val = [n/m for n, m in zip(row, shifted) if n % m == 0]
+            if val:
+                res2 += val[0]
+                break
 
-    print("The checksum is %d" % res)
+    print("The checksum for part1 is %d" % res1)
+    print("The checksum for part2 is %d" % res2)
 
 
 if __name__ == '__main__':
